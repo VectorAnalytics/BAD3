@@ -13,7 +13,7 @@
 }
 
 </style>
-<svg width="960" height="600"></svg>
+<svg width="1400" height="800"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
 
@@ -28,15 +28,13 @@ var simulation = d3.forceSimulation()
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
 
-//d3.json("miserables.json", function(error, graph) {
-//d3.json("maingroup_analysis.json", function(error, graph) {  
-//d3.json("ms_small_mg.json", function(error, graph)  { 
-d3.csv("Sample_Edges_Table.csv", function(error1, links) {
+//Read in both csv's, in a nested manner.
+d3.csv("All_Edges_Table.csv", function(error1, links) {
     links.forEach(function(d) {
         d.value = +d.value;    
     });
     
-    d3.csv("Sample_Nodes_Table.csv", function(error2, nodes) {
+    d3.csv("All_Nodes_Table.csv", function(error2, nodes) {
     // do something with the data
 
 
