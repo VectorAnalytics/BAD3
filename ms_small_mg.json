@@ -1,0 +1,13 @@
+{
+  "nodes": [
+    {"id": "B29C43", "group": "A"},
+    {"id": "B29C70", "group": "B"},
+    {"id": "D04B1", "group": "C"}
+  ],
+  "links": [
+    {"source": "D04B1", "target": "B29C43", "value": 4},
+    {"source": "D04B1", "target": "B29C43", "value": 7},
+    {"source": "D04B1", "target": "B29C70", "value": 10},
+    {"source": "B29C70", "target": "D04B1", "value": 2}
+  ]
+}
