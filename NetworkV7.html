@@ -30,6 +30,7 @@ var simulation = d3.forceSimulation()
     // Added a distanceMax of 300 to localize the network, ie get all nodes with svg.
     .force("charge", d3.forceManyBody().distanceMax(300))
     .force("center", d3.forceCenter(width / 2, height / 2))
+    //Added "collide" to eliminate node overlap.
     .force("collide", d3.forceCollide().radius(5).iterations(2));
 //Read in both csv's, in a nested manner.
 d3.csv("All_Edges_Table.csv", function(error1, links) {
