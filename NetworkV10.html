@@ -12,19 +12,12 @@
   stroke-width: 1.5px;
 }
 
-.legend rect {
-    fill: white;
-    stroke: black;
-    opacity: 0.8;
-}
 </style>
 <svg width="1400" height="800"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="d3.legend.js"></script>
 <script>
-//This file tries to use d3.legend.js as a call. It generates the network, but not the legend.
+
 var svg = d3.select("svg"),
-    //.attr("data-legend", function(d) {return d.group ; }),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
@@ -35,17 +28,16 @@ var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function(d) { return d.id; }))
     //.force("charge", d3.forceManyBody())
     // Added a distanceMax of 300 to localize the network, ie get all nodes with svg.
-    .force("charge", d3.forceManyBody().distanceMax(300))
+    .force("charge", d3.forceManyBody().distanceMax(250))
     .force("center", d3.forceCenter(width / 2, height / 2))
-    //Added "collide" to eliminate node overlap.
-    .force("collide", d3.forceCollide().radius(5).iterations(2));
+    .force("collide", d3.forceCollide().radius(5.5).iterations(2));
 //Read in both csv's, in a nested manner.
 d3.csv("All_Edges_Table.csv", function(error1, links) {
     links.forEach(function(d) {
         d.value = +d.value;    
     });
     
-    d3.csv("All_Nodes_Table.csv", function(error2, nodes) {
+    d3.csv("Def_Nodes_Table.csv", function(error2, nodes) {
     // do something with the data
 
 
@@ -64,7 +56,7 @@ d3.csv("All_Edges_Table.csv", function(error1, links) {
       .selectAll("circle")
       .data(nodes)
       .enter().append("circle")
-        .attr("r", 5)
+        .attr("r", 5.5)
         .attr("fill", function(d) { return color(d.group); })
         .call(d3.drag()
             .on("start", dragstarted)
@@ -72,7 +64,7 @@ d3.csv("All_Edges_Table.csv", function(error1, links) {
             .on("end", dragended));
 
     node.append("title")
-        .text(function(d) { return d.id + " " + d.group ; });
+        .text(function(d) { return "Group: " + d.group + "\nCode: " + d.id  + (d.id_def ? "\nDef: " + d.id_def : "") ; });
 
     simulation
         .nodes(nodes)
@@ -80,14 +72,7 @@ d3.csv("All_Edges_Table.csv", function(error1, links) {
 
     simulation.force("link")
         .links(links);
-    
-    var legend = svg.append("g")
-    .attr("class","legend")
-    .attr("transform","translate(0,0)")
-    .attr("data-legend", function(d) {return d.group ; })
-    .style("font-size","12px")
-    .call(d3.legend);
-        
+
     function ticked() {
       link
           .attr("x1", function(d) { return d.source.x; })
